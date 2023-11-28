@@ -1,0 +1,60 @@
+::--------------------------------------------------------------------------
+::This is Flight Simulator X: Studio for internal use purposes only
+::Do not contribute this edition to the global
+::(C) 2022 TheFlightSimulations
+::
+::Following groups under TheFlightSimulations Team can get this edition:
+::1. Marketting team (including VTuber and Community Managementors)
+::2. Developers
+::3. Trainers
+::Please note: The VTuber edition is quite different from the original Studio
+::edition.
+::This edition requires a key (or a password) to unlock important features.
+::--------------------------------------------------------------------------
+
+@echo off
+cd /d %~dp0
+title Flight Simulator X: Studio SDKs
+color f0
+goto start
+
+:start
+cls
+cd /d %~dp0
+echo Here is our SDKs available (64-bit only):
+echo 1. AGN Tool
+echo 2. A.I. Traffic Editor
+echo 3. Blender (or gmax)
+echo 4. DrawCallMonitor
+echo 5. fxEditor
+echo 6. LibraryCreatorXML
+echo 7. Microsoft Flight Simulator X SDK (SP1a)
+echo 8. ModelConverterX
+echo 9. ScenProc
+echo 10. GIMP 2
+set /p sdk=Where will Flight Simulator X: Studio be installed?
+md "%sdk%"
+cd "..\Additional Softwares\Tools\AI Traffic Editor"
+AITrafficSetup.msi /qb
+cd "..\Blender"
+blender-2.93.1-windows-x64.msi
+cd "..\GIMP2"
+gimp-2.10.24.exe
+cd "..\gmax"
+reg import activator.reg
+gmax12.exe
+cd /d %~dp0
+cd "Installer Core"
+dism /apply-image /imagefile:"..\Additional Softwares\Tools\SDK\SDKs.wim" /index:1 /applydir:"%sdk%"
+cd /d "..\Additional Softwares\Tools\SDK\Microsoft Flight Simulator X SDK\Retail"
+setup.exe /s /v /qn
+cd "..\SP1a"
+"fsx_sdk_sp1a.exe"
+cd /d %~dp0
+echo ----------------------------------------------------
+echo Flight Simulator X: Studio SDKs have been installed.
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Exiting...
+echo -------------------------------------------------------------
+timeout 5
+exit

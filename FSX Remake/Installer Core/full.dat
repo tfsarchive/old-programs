@@ -1,0 +1,194 @@
+::--------------------------------------------------------------------------
+::This is Flight Simulator X: Studio for internal use purposes only
+::Do not contribute this edition to the global
+::(C) 2022 TheFlightSimulations
+::
+::Following groups under TheFlightSimulations Team can get this edition:
+::1. Marketting team (including VTuber and Community Managementors)
+::2. Developers
+::3. Trainers
+::Please note: The VTuber edition is quite different from the original Studio
+::edition.
+::This edition requires a key (or a password) to unlock important features.
+::--------------------------------------------------------------------------
+
+@echo off
+cd /d %~dp0
+title Flight Simulator X: Studio Full installation
+color f0
+goto start
+
+:start 
+cls
+cd /d %~dp0
+set /p folder=Where will Flight Simulator X: Studio be installed?
+echo ----------------------------------------------------
+echo The installation will begin in 1 min
+echo Make sure that no installation is running right now
+echo ----------------------------------------------------
+timeout 60
+cls
+echo ---------------------------------------------------------
+echo The Installer is extracting files into your following
+echo folder: %folder%
+echo ---------------------------------------------------------
+md "%folder%"
+echo ---------------------------------------------------------
+echo Installing main files...
+echo ---------------------------------------------------------
+dism /apply-image /imagefile:"..\Data\FSX_Part1.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 10
+dism /apply-image /imagefile:"..\Data\FSX_Part2.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part3.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part4.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part5.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part6.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part7.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+echo -----------------------------------------------------
+echo Now the Installer is installing Updates
+echo -----------------------------------------------------
+echo Installing the Winter 2021 update...
+dism /apply-image /imagefile:"..\Data\win_2021.wim" /index:1 /applydir:"%folder%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 150
+cls
+cd /d "%SystemRoot%\System32"
+echo Adding registries and configurations...
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v AppPath /t REG_SZ /d "%folder%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v SetupPath /t REG_SZ /d "%folder%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v SetupPath /t REG_SZ /d "%folder%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v AppPath /t REG_SZ /d "%folder%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v AppPath /t REG_SZ /d "%folder%" /f 
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v SetupPath /t REG_SZ /d "%folder%" /f 
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v SetupPath /t REG_SZ /d "%folder%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v AppPath /t REG_SZ /d "%folder%" /f
+dism /apply-image /imagefile:"..\Settings\DataFont.wim" /index:1 /applydir:C:\
+dism /apply-image /imagefile:"..\Settings\Settings.wim" /index:1 /applydir:"%USERPROFILE%\AppData\Roaming"
+cls
+cd /d %~dp0
+echo --------------------------------------------------------
+echo The Installation is installing Runtimes
+echo --------------------------------------------------------
+cd "..\Additional Softwares\Runtimes"
+echo Installing Visual C++...
+2005.exe /q 
+2008.exe /q
+2010.exe /q 
+2012.exe /q 
+2013.exe /q
+2015.exe /q
+2019.exe /q
+echo Installing DirectX...
+cd "DirectX"
+DXSETUP.exe /silent
+cd "..\"
+echo Installing Java...
+java.exe /s
+echo Installing Python 3.9...
+python.exe /quiet
+echo Installing MS XML 4.0...
+msxml.msi /quiet
+cls
+cd /d %~dp0
+echo --------------------------------------------------------
+echo The Installer is installing add-ons
+echo --------------------------------------------------------
+echo Installing EZdok Camera...
+cd "..\Additional Softwares\Add-ons\EZdok"
+EZdok.exe
+echo Installing FS2Crew RAAS...
+cd "..\FS2Crew_RAAS"
+RAAS.exe
+cls
+echo Installing FSUIPC...
+echo Here's your FSUIPC's keys
+echo --------------------------
+echo Name: TheFlightSim         
+echo Email: tfssev@tfs.com      
+echo FSUIPC4 Key: QFFAB9YJOQZV  
+echo WideFS7 Key: 4VLZKB2947XI  
+echo --------------------------
+echo If the FSUIPC cannot indentify your Flight 
+echo Simulator main folder, locate it in here
+echo %folder%
+cd "..\FSUIPC"
+FSUIPC4.exe
+cls
+echo Installing Ground Services X....
+cd "..\GSX"
+gsx_fsx_setup2.exe
+echo Press "a" if asked to overwrite
+xcopy "patcher.exe" "%USERPROFILE%\Desktop" /c /q /h /r
+cls
+echo Installing JoinFS.....
+cd "..\JoinFS"
+JoinFS.msi /q
+cls
+echo --------------------------------------------------------
+echo The Installation is installing SimConnect
+echo --------------------------------------------------------
+cd /d %~dp0
+echo Installing SimConnect for Flight Simulator X: Studio
+cd "..\Additional Softwares\Tools\SimConnect\10.0.60905"
+SimConnect.msi /quiet
+cd "..\10.0.61242"
+SimConnect.msi /quiet
+cd "..\10.0.61259" 
+SimConnect.msi /quiet
+cd "..\10.0.62615"
+SimConnect.msi /quiet
+cd "..\IPv6"
+netsh interface ipv6 install
+cls
+cd /d %~dp0
+echo ---------------------------------------
+echo The Installer is installing Airplanes
+echo ---------------------------------------
+cd "..\Additional Softwares\Add-ons\Airplanes\Aerosoft"
+echo Installing Aerosoft Airplanes (you can skip by pressing Cancel)
+start AS.exe
+AS_CRJ700-900-X_FSX-P3D-FSXSTEAM_V1005.exe
+AS_F-14-EXTENDED_FSX-P3D-FSXSTEAM_V202.exe
+cd "..\PMDG"
+echo Installing PMDG Airplanes (you can skip by pressing Cancel)
+PMDG_737_Base.exe
+PMDG_737_Expansion.exe
+PMDG_747_Base.exe
+PMDG_747_Extension.exe
+PMDG_777_Base.exe
+PMDG_777_Expansion.exe
+cd /d %~dp0
+dism /apply-image /imagefile:"..\Additional Softwares\Add-ons\Airplanes\PMDG\patched.wim" /index:1 /applydir:"%folder%"
+cd "..\Additional Softwares\Add-ons\Airplanes\PMDG\777"
+777Immersion.exe
+cd /d %~dp0
+dism /apply-image /imagefile:"..\Additional Softwares\Add-ons\Airplanes\PMDG\737.wim" /index:1 /applydir:"%folder%"
+cls
+cd /d %~dp0
+echo ----------------------------------------------------------------
+echo The installation has been completed.
+echo ----------------------------------------------------------------
+echo While running Flight Simulator, make sure that you have
+echo run the Patcher - which is pasted in your desktop and in
+echo your FSX folder.
+echo ----------------------------------------------------------------
+echo The installation has been completed successfully. Exiting...
+echo ----------------------------------------------------------------
+timeout 5
+exit
+
+
+

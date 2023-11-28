@@ -1,0 +1,339 @@
+::--------------------------------------------------------------------------
+::This is Flight Simulator X: Studio for internal use purposes only
+::Do not contribute this edition to the global
+::(C) 2022 TheFlightSimulations
+::
+::Following groups under TheFlightSimulations Team can get this edition:
+::1. Marketting team (including VTuber and Community Managementors)
+::2. Developers
+::3. Trainers
+::Please note: The VTuber edition is quite different from the original Studio
+::edition.
+::This edition requires a key (or a password) to unlock important features.
+::--------------------------------------------------------------------------
+
+@echo off
+cd /d %~dp0
+title Flight Simulator X: Studio Manual Installation
+color f0
+goto start 
+
+:start
+cls
+cd /d %~dp0
+echo Welcome. 
+echo What do you want to install?
+echo 0. Install main Flight Simulator only (with runtimes)
+echo 1. Aerosoft F-14 (Airplane)
+echo 2. Aerosoft CRJ 700-900 (Airplane)
+echo 3. PMDG 737 600-700-800-900 (Airplane)
+echo 4. PMDG 747-400-8iF (Airplane)
+echo 5. PMDG 777-200-300ER-LR-F (Airplane)
+echo 6. EZdok Camera v3 (Add-on)
+echo 7. FS2Crew: RAAS (Add-on)
+echo 8. FSUIPC (Add-on)
+echo 9. Ground Services X (Add-on)
+echo a. JoinFS (Add-on, multiplayer purpose)
+echo b. Professional Flight Plan X (Tool)
+choice /n /c 0123456789AB /m "Choose one..." 
+if ERRORLEVEL 12 goto :pfpx b
+if ERRORLEVEL 11 goto :joinfs a
+if ERRORLEVEL 10 goto :gsx 9
+if ERRORLEVEL 9 goto :fsuipc 8
+if ERRORLEVEL 8 goto :fs2crew 7
+if ERRORLEVEL 7 goto :ezok 6 
+if ERRORLEVEL 6 goto :777 5
+if ERRORLEVEL 5 goto :747 4
+if ERRORLEVEL 4 goto :737 3
+if ERRORLEVEL 3 goto :crj 2
+if ERRORLEVEL 2 goto :f14 1
+if ERRORLEVEL 1 goto :man 0
+
+:man
+cls
+cd /d %~dp0
+set /p folder_main_fsx=Where will Flight Simulator X: Studio be installed?
+echo ----------------------------------------------------
+echo The installation will begin in 1 min
+echo Make sure that no installation is running right now
+echo ----------------------------------------------------
+timeout 60
+cls
+echo ---------------------------------------------------------
+echo The Installer is extracting files into your following
+echo folder: %folder_main_fsx%
+echo ---------------------------------------------------------
+md "%folder_main_fsx%"
+echo ---------------------------------------------------------
+echo Installing main files...
+echo ---------------------------------------------------------
+dism /apply-image /imagefile:"..\Data\FSX_Part1.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 10
+dism /apply-image /imagefile:"..\Data\FSX_Part2.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part3.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part4.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part5.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part6.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+dism /apply-image /imagefile:"..\Data\FSX_Part7.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 300
+cls
+echo -----------------------------------------------------
+echo Installing Updates
+echo -----------------------------------------------------
+echo Installing the Winter 2021 update...
+dism /apply-image /imagefile:"..\Data\win_2021.wim" /index:1 /applydir:"%folder_main_fsx%"
+echo Please wait while SYSTEM is configuring the files 
+timeout 150
+cls
+echo --------------------------------------------------------
+echo The Installation is installing Runtimes
+echo --------------------------------------------------------
+cd "..\Additional Softwares\Runtimes"
+echo Installing Visual C++...
+2005.exe /q 
+2008.exe /q
+2010.exe /q 
+2012.exe /q 
+2013.exe /q
+2015.exe /q
+2019.exe /q
+echo Installing DirectX...
+cd "DirectX"
+DXSETUP.exe /silent
+cd "..\"
+echo Installing Java...
+java.exe /s
+echo Installing Python 3.9...
+python.exe /quiet
+echo Installing MS XML 4.0...
+msxml.msi /quiet
+cls
+echo --------------------------------------------------------
+echo The Installation is installing SimConnect
+echo --------------------------------------------------------
+cd /d %~dp0
+echo Installing SimConnect for Flight Simulator X: Studio...
+cd "..\Additional Softwares\Tools\SimConnect\10.0.60905"
+SimConnect.msi /quiet
+cd "..\10.0.61242"
+SimConnect.msi /quiet
+cd "..\10.0.61259" 
+SimConnect.msi /quiet
+cd "..\10.0.62615"
+SimConnect.msi /quiet
+echo Installing IPv6...
+cd "..\IPv6"
+netsh interface ipv6 install
+cls
+echo --------------------------------------------------------
+echo Adding registries and configurations...
+echo --------------------------------------------------------
+cd /d %~dp0
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v AppPath /t REG_SZ /d "%folder_main_fsx%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v SetupPath /t REG_SZ /d "%folder_main_fsx%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v SetupPath /t REG_SZ /d "%folder_main_fsx%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v AppPath /t REG_SZ /d "%folder_main_fsx%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v AppPath /t REG_SZ /d "%folder_main_fsx%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v SetupPath /t REG_SZ /d "%folder_main_fsx%" /f 
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v SetupPath /t REG_SZ /d "%folder_main_fsx%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v AppPath /t REG_SZ /d "%folder_main_fsx%" /f
+dism /apply-image /imagefile:"..\Settings\DataFont.wim" /index:1 /applydir:C:\
+dism /apply-image /imagefile:"..\Settings\Settings.wim" /index:1 /applydir:"%USERPROFILE%\AppData\Roaming"
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start 
+
+:f14
+cls
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\Airplanes\Aerosoft"
+start AS.exe
+AS_F-14-EXTENDED_FSX-P3D-FSXSTEAM_V202.exe
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start 
+
+:crj
+cls
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\Airplanes\Aerosoft"
+start AS.exe
+AS_CRJ700-900-X_FSX-P3D-FSXSTEAM_V1005.exe
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start 
+
+:737
+cls
+cd /d %~dp0
+set /p 7371=Let we know where is your main Flight Simulator locate?
+cd "..\Additional Softwares\Add-ons\Airplanes\PMDG"
+PMDG_737_Base.exe
+PMDG_737_Expansion.exe
+cd /d %~dp0 
+dism /apply-image /imagefile:"..\Additional Softwares\Add-ons\Airplanes\PMDG\patched.wim" /index:1 /applydir:"%7371%"
+dism /apply-image /imagefile:"..\Additional Softwares\Add-ons\Airplanes\PMDG\737.wim" /index:1 /applydir:"%7371%"
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start 
+
+:747
+cls
+cd /d %~dp0
+set /p 7471=Let we know where is your main Flight Simulator locate?
+cd "..\Additional Softwares\Add-ons\Airplanes\PMDG"
+PMDG_747_Base.exe
+PMDG_747_Extension.exe
+cd /d %~dp0 
+dism /apply-image /imagefile:"..\Additional Softwares\Add-ons\Airplanes\PMDG\patched.wim" /index:1 /applydir:"%7471%"
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start 
+
+:777
+cls
+cd /d %~dp0
+set /p 7771=Let we know where is your main Flight Simulator locate?
+cd "..\Additional Softwares\Add-ons\Airplanes\PMDG"
+PMDG_777_Base.exe
+PMDG_777_Expansion.exe
+cd /d %~dp0 
+dism /apply-image /imagefile:"..\Additional Softwares\Add-ons\Airplanes\PMDG\patched.wim" /index:1 /applydir:"%771%"
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\Airplanes\PMDG\777"
+777Immersion.exe
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start 
+
+:ezok
+cls
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\EZdok"
+EZdok.exe
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start
+
+
+:fs2crew
+cd "..\Additional Softwares\Add-ons\FS2Crew_RAAS"
+RAAS.exe	
+cls			  
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start
+
+:fsuipc
+cls
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\FSUIPC"
+start FSUIPC4.exe
+echo Here's your FSUIPC's keys, including WideFS7
+echo -----------------------------
+echo Name: TheFlightSim         
+echo Email: tfssev@tfs.com      
+echo FSUIPC4 Key: QFFAB9YJOQZV  
+echo WideFS7 Key: 4VLZKB2947XI  
+echo -----------------------------
+timeout 100
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start
+
+:gsx
+cls
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\GSX"
+gsx_fsx_setup2.exe
+echo Press "a" if asked
+xcopy "patcher.exe" "%USERPROFILE%\Desktop"  /c /q /h /r
+cls
+echo --------------------------------------------------------
+echo While running Flight Simulator, make sure that you have
+echo run the Patcher - which is pasted in your desktop and in
+echo your FSX folder.
+echo --------------------------------------------------------
+echo If you don't, Ground Services X won't run properly.
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 10
+goto start
+
+:joinfs
+cls
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\JoinFS"
+JoinFS.msi /q
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start
+
+:pfpx
+cls
+cd /d %~dp0
+cd "..\Additional Softwares\Add-ons\PFPX"
+AS_PFPX_V128.exe
+echo -------------------------------------------------
+echo Now, the Installer will run the PFPX activator.
+echo Please start the PFPX and follow the instruction 
+echo in the activator.
+echo -------------------------------------------------
+pfpxkg.exe
+timeout 200
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Restarting...
+echo -------------------------------------------------------------
+timeout 5
+goto start
+
+
+
+
+
+
+
+

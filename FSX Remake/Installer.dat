@@ -1,0 +1,137 @@
+@ECHO OFF
+::--------------------------------------------------------------------------
+::This is Flight Simulator X: Studio for internal use purposes only
+::Do not contribute this edition to the global
+::(C) 2022 TheFlightSimulations
+::
+::Following groups under TheFlightSimulations Team can get this edition:
+::1. Marketting team (including VTuber and Community Managementors)
+::2. Developers
+::3. Trainers
+::Please note: The VTuber edition is quite different from the original Studio
+::edition.
+::This edition requires a key (or a password) to unlock important features.
+::--------------------------------------------------------------------------
+
+@echo off
+cd /d %~dp0
+title Flight Simulator X: Studio Installer
+color f0
+goto start 
+
+
+:start 
+cls
+echo The current time is: %time%
+echo --------------------------------------------------
+echo If you press a key that's not assigned in the
+echo avail choice keymap, the Installer will exit.
+echo --------------------------------------------------
+timeout 30 
+cls
+echo --------------------------------------------------
+echo Welcome to Flight Simulator X: Studio Installer
+echo --------------------------------------------------
+echo Before you continue, make sure that your system met
+echo the system requirements.
+echo Here is the system requirements:
+echo OS Version:                           Windows 8.1
+echo CPU:                                  Any CPU faster than i3 Gen 6th
+echo Minimum RAM:                          6GB
+echo Minimum free space in your hard disk: 160GB
+echo GPU:                                  Any GPU faster than NVIDIA 840M
+echo Additional requirement:               A connection to the Internet to get the real-world data
+::The system requirements may change when we found another computer with lower 
+::spec can run this edition or (some) computer(s) met the system requirements but
+::still cannot run this edition properly.
+pause
+goto begin 
+
+:begin
+cd /d %~dp0
+cls
+echo Here are your choices:
+echo 1. Complete installation (with updates, add-ons, and tools; without SDKs)
+echo 2. Installing the SDKs only (for 64-bit systems only)
+echo 3. Manual installation
+echo 4. Exit the Installer
+echo 5. Fix the registry
+echo ------------------------------------------------------------------------
+echo Please take a note that the complete installation will choose automatically 
+echo components. Make sure that you've at least 175GB of free space to run 
+echo full installation. 
+echo ------------------------------------------------------------------------
+echo If you already have a Flight Simulator or you do not have enough space
+echo on your hard drive, we would recommend running Manual installation.
+echo ------------------------------------------------------------------------
+choice /n /c 12345 /m "What do you want?" 
+if ERRORLEVEL 5 goto :reg 5
+if ERRORLEVEL 4 goto :ex 4
+if ERRORLEVEL 3 goto :man 3
+if ERRORLEVEL 2 goto :sdk 2
+if ERRORLEVEL 1 goto :comp 1
+
+:reg 
+cls
+cd /d %~dp0
+cd "Installer Core"
+start registries.exe
+cd /d %~dp0
+goto begin
+
+:ex
+cls
+cd /d %~dp0
+echo The Installer will exit 
+timeout 5
+exit
+
+:man
+cls
+cd /d %~dp0
+cd "Installer Core"
+start man.exe
+cd /d %~dp0
+goto begin
+
+:sdk 
+cls
+cd /d %~dp0
+cd "Installer Core"
+start sdk.exe
+cd /d %~dp0 
+goto begin
+
+:comp 
+cls
+cd /d %~dp0
+cd "Installer Core"
+start full.exe
+cd /d %~dp0
+goto begin 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

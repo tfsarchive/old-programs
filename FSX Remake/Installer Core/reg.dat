@@ -1,0 +1,36 @@
+::--------------------------------------------------------------------------
+::This is Flight Simulator X: Studio for internal use purposes only
+::Do not contribute this edition to the global
+::(C) 2022 TheFlightSimulations
+::
+::Following groups under TheFlightSimulations Team can get this edition:
+::1. Marketting team (including VTuber and Community Managementors)
+::2. Developers
+::3. Trainers
+::Please note: The VTuber edition is quite different from the original Studio
+::edition.
+::This edition requires a key (or a password) to unlock important features.
+::--------------------------------------------------------------------------
+
+@echo off
+title Flight Simulator X: Studio Fixing Registries
+color f0
+goto start
+
+:start
+cls
+set /p fixregfsx=What is the folder path that Flight Simulator was installed?
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v AppPath /t REG_SZ /d "%fixregfsx%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v SetupPath /t REG_SZ /d "%fixregfsx%" /f 
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v SetupPath /t REG_SZ /d "%fixregfsx%" /f
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v AppPath /t REG_SZ /d "%fixregfsx%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v AppPath /t REG_SZ /d "%fixregfsx%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\10.0" /v SetupPath /t REG_SZ /d "%fixregfsx%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v SetupPath /t REG_SZ /d "%fixregfsx%" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator - Steam Edition\10.0" /v AppPath /t REG_SZ /d "%fixregfsx%" /f
+cls
+echo -------------------------------------------------------------
+echo The installation has been completed successfully. Exiting...
+echo -------------------------------------------------------------
+timeout 5
+exit
